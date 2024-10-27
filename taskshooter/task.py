@@ -1,17 +1,19 @@
 import logging
 from abc import ABC, abstractmethod
 from datetime import datetime
+from logging import Logger
 
 from .trigger import Trigger
 
-logger = logging.getLogger(__name__)
+default_logger = logging.getLogger(__name__)
 
 
 class Task(ABC):
-    def __init__(self, name: str, trigger: Trigger, emoji: str = None):
+    def __init__(self, name: str, trigger: Trigger, emoji: str = None, logger: Logger = None):
         self.name: str = name
         self.emoji: str = emoji
         self.trigger: Trigger = trigger
+        self.logger: Logger = logger
 
         self.stated_at: datetime = None
         self.finished_at: datetime = None
@@ -66,6 +68,7 @@ class Task(ABC):
         else:
             prefix = f"{self.name}"
 
+        logger = self.logger or default_logger
         logger.log(level, f"%s > %s", prefix, message, exc_info=exception)
 
     def info(self, message: str):
