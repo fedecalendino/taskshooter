@@ -1,0 +1,39 @@
+name: Publish package
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: "GITHUB: checkout code"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: "GITHUB: setup python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+
+      - name: "POETRY: install"
+        uses: abatilo/actions-poetry@v2.2.0
+
+      - name: "POETRY: setup environment"
+        run: poetry install --no-root
+
+      - name: "PYPI: build and publish package"
+        run: poetry publish --build --username __token__ --password ${{ secrets.TOKEN_PYPI }}
+
+      - name: 'SLACK: notify'
+        with:
+            slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+            slack_button_url: "https://pypi.org/project/taskshooter/"
+            slack_button_emoji: ":pypi:"
+        uses: fedecalendino/slack-release-notifier@v3.0.2
+
