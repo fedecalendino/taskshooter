@@ -33,6 +33,7 @@ jobs:
       - name: 'SLACK: notify'
         with:
             slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+            slack_button_text: "open on pypi"
             slack_button_url: "https://pypi.org/project/taskshooter/"
             slack_button_emoji: ":pypi:"
         uses: fedecalendino/slack-release-notifier@v3.0.2
