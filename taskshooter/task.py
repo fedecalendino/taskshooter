@@ -71,8 +71,8 @@ class Task(ABC):
     def info(self, message: str):
         self.log(logging.INFO, message)
 
-    def error(self, message: str):
-        self.log(logging.ERROR, message)
+    def error(self, message: str, exception: Exception = None):
+        self.log(logging.ERROR, message, exception)
 
     def exception(self, exception: Exception):
-        self.log(logging.ERROR, str(exception), exception)
+        self.error(str(exception), exception)
