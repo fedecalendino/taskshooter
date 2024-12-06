@@ -17,7 +17,7 @@ class Task(ABC):
         self.finished_at: datetime = None
 
     @abstractmethod
-    def execute(self):
+    def execute(self, force: bool = False):
         raise NotImplementedError()
 
     def run(self, force: bool = False, manual: bool = False):
@@ -31,7 +31,7 @@ class Task(ABC):
         self.pre_run()
 
         try:
-            self.execute()
+            self.execute(force)
             self.finished_at = datetime.now()
             self.info(f"completed successfully in {self.runtime}ms")
 
