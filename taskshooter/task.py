@@ -68,8 +68,11 @@ class Task(ABC):
 
         logger.log(level, f"%s > %s", prefix, message, exc_info=exception)
 
-    def info(self, message: str):
-        self.log(logging.INFO, message)
+    def info(self, message: str, , exception: Exception = None):
+        self.log(logging.INFO, message, exception)
+
+    def warning(self, message: str, exception: Exception = None):
+        self.log(logging.WARNING, message, exception)
 
     def error(self, message: str, exception: Exception = None):
         self.log(logging.ERROR, message, exception)
