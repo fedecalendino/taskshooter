@@ -1,6 +1,7 @@
 import logging
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import Dict
 
 from .trigger import Trigger
 
@@ -8,10 +9,11 @@ logger = logging.getLogger(__name__)
 
 
 class Task(ABC):
-    def __init__(self, name: str, trigger: Trigger, emoji: str = None):
+    def __init__(self, name: str, trigger: Trigger, emoji: str = None, metadata: Dict[str, object] = None):
         self.name: str = name
-        self.emoji: str = emoji
         self.trigger: Trigger = trigger
+        self.emoji: str = emoji
+        self.metadata: Dict[str, object] = metadata or {}
 
         self.stated_at: datetime = None
         self.finished_at: datetime = None
@@ -21,7 +23,7 @@ class Task(ABC):
         raise NotImplementedError()
 
     def run(self, force: bool = False, manual: bool = False):
-        if not force:
+        if not force or not manual:
             if not self.trigger.check():
                 return
 
@@ -68,7 +70,7 @@ class Task(ABC):
 
         logger.log(level, f"%s > %s", prefix, message, exc_info=exception)
 
-    def info(self, message: str, , exception: Exception = None):
+    def info(self, message: str, exception: Exception = None):
         self.log(logging.INFO, message, exception)
 
     def warning(self, message: str, exception: Exception = None):
