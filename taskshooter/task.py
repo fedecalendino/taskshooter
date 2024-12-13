@@ -2,6 +2,7 @@ import logging
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Dict
+from uuid import uuid4, UUID
 
 from .trigger import Trigger
 
@@ -10,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 class Task(ABC):
     def __init__(self, name: str, trigger: Trigger, emoji: str = None, metadata: Dict[str, object] = None):
+        self.id: UUID = None
         self.name: str = name
         self.trigger: Trigger = trigger
         self.emoji: str = emoji
@@ -27,6 +29,8 @@ class Task(ABC):
             if not self.trigger.check():
                 return
 
+        self.id = uuid4()
+
         self.info("running task...")
 
         self.stated_at = datetime.now()
@@ -43,6 +47,8 @@ class Task(ABC):
             self.finished_at = datetime.now()
 
             self.post_run(manual=manual, exception=exception)
+
+        self.id = None
 
     def pre_run(self):
         pass
@@ -63,12 +69,7 @@ class Task(ABC):
 
     # logging
     def log(self, level: int, message: str, exception: Exception = None):
-        if self.emoji:
-            prefix = f"{self.emoji} {self.name}"
-        else:
-            prefix = f"{self.name}"
-
-        logger.log(level, f"%s > %s", prefix, message, exc_info=exception)
+        logger.log(level, f"[%s] %s > %s", str(self.id), str(self), message, exc_info=exception)
 
     def info(self, message: str, exception: Exception = None):
         self.log(logging.INFO, message, exception)
@@ -81,3 +82,9 @@ class Task(ABC):
 
     def exception(self, exception: Exception):
         self.error(str(exception), exception)
+
+    def __repr__(self):
+        if self.emoji:
+            return f"{self.emoji} {self.name}"
+        else:
+            return f"{self.name}"

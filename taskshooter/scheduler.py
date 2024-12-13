@@ -25,7 +25,7 @@ class Scheduler:
         logger.info("Scheduled tasks:")
 
         for task in self.tasks:
-            logger.info(f" * {task.name}: {task.trigger.description}")
+            logger.info(f" * {task}: {task.trigger.description}")
 
     def workwork(self):
         for task in self.tasks:
