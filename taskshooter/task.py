@@ -23,7 +23,7 @@ class Task(ABC):
         raise NotImplementedError()
 
     def run(self, force: bool = False, manual: bool = False):
-        if not force or not manual:
+        if not (force or manual):
             if not self.trigger.check():
                 return
 
