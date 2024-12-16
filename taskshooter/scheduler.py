@@ -1,5 +1,5 @@
 import logging
-from threading import Thread
+from concurrent.futures import ThreadPoolExecutor
 from time import time, sleep
 
 from taskshooter.config import DEBUG
@@ -29,9 +29,8 @@ class Scheduler:
             self.info(f" * {task}: {task.trigger.description}")
 
     def workwork(self):
-        for task in self.tasks:
-            thread = Thread(target=task.run)
-            thread.start()
+        with ThreadPoolExecutor() as executor:
+            executor.map(lambda task: task.run(), self.tasks)
 
     def nap(self):
         seconds = 60 - time() % 60
