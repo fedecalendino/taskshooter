@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Dict
 from uuid import uuid4, UUID
 
+from taskshooter.config import DEBUG
 from .trigger import Trigger
 
 logger = logging.getLogger(__name__)
@@ -70,6 +71,9 @@ class Task(ABC):
     # logging
     def log(self, level: int, message: str, exception: Exception = None):
         logger.log(level, f"[%s] %s > %s", str(self.id), str(self), message, exc_info=exception)
+
+        if DEBUG:
+            print(f"[{self.id}] {self} > {message}")
 
     def debug(self, message: str, exception: Exception = None):
         self.log(logging.DEBUG, message, exception)

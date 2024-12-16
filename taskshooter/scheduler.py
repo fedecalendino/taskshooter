@@ -2,6 +2,7 @@ import logging
 from threading import Thread
 from time import time, sleep
 
+from taskshooter.config import DEBUG
 from .task import Task
 
 logger = logging.getLogger(__name__)
@@ -40,6 +41,9 @@ class Scheduler:
     # logging
     def log(self, level: int, message: str, exception: Exception = None):
         logger.log(level, message, exc_info=exception)
+
+        if DEBUG:
+            print(message)
 
     def debug(self, message: str, exception: Exception = None):
         self.log(logging.DEBUG, message, exception)
