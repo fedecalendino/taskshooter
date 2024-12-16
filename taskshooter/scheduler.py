@@ -9,8 +9,9 @@ logger = logging.getLogger(__name__)
 
 
 class Scheduler:
-    def __init__(self, tasks: list[Task] = None):
+    def __init__(self, tasks: list[Task] = None, max_workers: int = None):
         self.tasks = tasks or []
+        self.max_workers: int = max_workers or 5
 
     def run(self):
         self.show()
@@ -29,8 +30,10 @@ class Scheduler:
             self.info(f" * {task}: {task.trigger.description}")
 
     def workwork(self):
-        with ThreadPoolExecutor() as executor:
-            executor.map(lambda task: task.run(), self.tasks)
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            for task in self.tasks:
+                if task.trigger.check():
+                    executor.submit(task.run)
 
     def nap(self):
         seconds = 60 - time() % 60

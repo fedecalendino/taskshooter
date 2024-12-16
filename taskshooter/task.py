@@ -26,10 +26,6 @@ class Task(ABC):
         raise NotImplementedError()
 
     def run(self, force: bool = False, manual: bool = False):
-        if not (force or manual):
-            if not self.trigger.check():
-                return
-
         self.id = uuid4()
 
         self.info("running task...")
