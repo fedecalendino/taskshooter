@@ -29,8 +29,6 @@ class Scheduler:
 
     def workwork(self):
         for task in self.tasks:
-            self.info(f"running {task}...")
-
             thread = Thread(target=task.run)
             thread.start()
 
