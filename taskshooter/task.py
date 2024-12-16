@@ -71,6 +71,9 @@ class Task(ABC):
     def log(self, level: int, message: str, exception: Exception = None):
         logger.log(level, f"[%s] %s > %s", str(self.id), str(self), message, exc_info=exception)
 
+    def debug(self, message: str, exception: Exception = None):
+        self.log(logging.DEBUG, message, exception)
+
     def info(self, message: str, exception: Exception = None):
         self.log(logging.INFO, message, exception)
 
