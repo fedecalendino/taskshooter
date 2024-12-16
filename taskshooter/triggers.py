@@ -23,7 +23,17 @@ every_12_hours = HourTrigger(12)
 every_24_hours = HourTrigger(24)
 
 at_0000_utc = DayTrigger(hour=0, minute=0, tz=UTC)
+at_0300_utc = DayTrigger(hour=3, minute=0, tz=UTC)
 at_0600_utc = DayTrigger(hour=6, minute=0, tz=UTC)
+at_0900_utc = DayTrigger(hour=9, minute=0, tz=UTC)
 at_1200_utc = DayTrigger(hour=12, minute=0, tz=UTC)
+at_1500_utc = DayTrigger(hour=15, minute=0, tz=UTC)
 at_1800_utc = DayTrigger(hour=18, minute=0, tz=UTC)
+at_2100_utc = DayTrigger(hour=21, minute=0, tz=UTC)
 at_2359_utc = DayTrigger(hour=23, minute=59, tz=UTC)
+
+at_midnight_utc = at_0000_utc
+at_noon_utc = at_1200_utc
+
+at_sod_utc = at_0000_utc
+at_eod_utc = at_2359_utc
