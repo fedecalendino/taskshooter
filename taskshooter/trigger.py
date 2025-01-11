@@ -18,6 +18,15 @@ class Trigger(ABC):
         return self.description
 
 
+class NeverTrigger(Trigger):
+    @property
+    def description(self) -> str:
+        return "never"
+
+    def check(self) -> bool:
+        return False
+
+
 class MinuteTrigger(Trigger):
     def __init__(self, minutes: int, tz: BaseTzInfo = UTC):
         assert minutes > 0

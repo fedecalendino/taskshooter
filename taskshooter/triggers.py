@@ -1,6 +1,8 @@
 from pytz import UTC
 
-from .trigger import MinuteTrigger, HourTrigger, DayTrigger
+from .trigger import MinuteTrigger, HourTrigger, DayTrigger, NeverTrigger
+
+never = NeverTrigger()
 
 every_minute = MinuteTrigger(1)
 every_2_minutes = MinuteTrigger(2)
