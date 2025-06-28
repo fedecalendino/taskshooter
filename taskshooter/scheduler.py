@@ -36,7 +36,7 @@ class Scheduler:
                     executor.submit(task.run)
 
     def nap(self):
-        seconds = 60 - time() % 60
+        seconds = 60 - time() % 60 + 0.1
         self.debug("💤 sleeping")
         sleep(seconds)
 
