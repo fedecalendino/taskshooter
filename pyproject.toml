@@ -5,7 +5,7 @@ documentation = "https://github.com/fedecalendino/taskshooter/blob/main/README.m
 homepage = "https://github.com/fedecalendino/taskshooter"
 license = "MIT"
 readme = "README.md"
-version = "0.6.4"
+version = "0.7.0"
 
 authors = [
   "Fede Calendino <fede@calendino.com>",
@@ -26,12 +26,11 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-pytz = "^2024.2"
+python = "^3.10"
+pytz = "^2025.2"
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.1.0"
-
+black = "^24.10.0"
 
 [tool.poetry.group.test.dependencies]
 ddt = "^1.7.2"
